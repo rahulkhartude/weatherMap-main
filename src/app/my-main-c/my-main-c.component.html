@@ -1,0 +1,222 @@
+<br><br>
+<div id="header">
+
+    <input #location type="text" placeholder="Enter your location" value="">
+
+    <button (click)="searchMethod(location.value)">Search</button>
+    <button (click)="celM()">Metric: <span>&deg;C</span> ,m/s </button>
+    <button (click)="farM()">Imperial: <span>&deg;F</span>,mph </button>
+</div>
+<ul *ngFor="let el of cityArray;index as i">
+    <li (click)="fetchData(el.lat, el.lon,i)">
+        {{el.name}}{{el.country}}
+
+    </li>
+</ul>
+
+
+<br><br>
+
+<div *ngIf="cityArray" class="envirionmentData">
+    <div style="color: red;">{{todaysDate |date: 'MMM d, hh:mm a' }}</div>
+
+    <div> <strong *ngIf="lat" style="font-size:180%;"> {{userCityName}},{{ userCountryName}} </strong> </div>
+    <div *ngIf="lat" class="temp" style="font-size:160%"> <img src="{{weatherIcon}}"> {{temprature}}
+       <span *ngIf="unit==='metric'">&deg;C</span>
+        <span *ngIf="unit==='imperial'">&deg;F</span>
+    </div>
+    <div *ngIf="lat"><b>Feels Like {{feelsLike}}.{{descriptions}}.....</b> </div>
+    <div *ngIf="lat">(icon) {{windSpeed}}m/s E ... (icon){{pressure}}hPa</div>
+    <div *ngIf="lat">humidity: {{ humidity }} ... UV: {{uvi}}</div>
+    <div *ngIf="lat">Dew point:{{dewPoint}}
+
+        <span *ngIf="unit==='metric'">&deg;C</span>
+        <span *ngIf="unit==='imperial'">&deg;F</span>
+        ... Visibility: {{visibility}}km
+    </div>
+
+
+</div>
+
+<br><br>
+<div class="AllData">
+    <div>
+
+        <div id="ChartArea" *ngIf="cityData">
+            <div id="ChartSpace">
+                <h2 *ngIf="selectedCityCountryIndex"> <strong>Hourly forecast</strong></h2>
+                <canvas id="ChartData" *ngIf="cityData" height="500" width="5000"> {{myChart}} </canvas>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="days " *ngIf="weatherAllData">
+        <h2> <strong>8 days Forecast</strong></h2>
+
+        <table *ngIf="tog===0 && thirdVar==0">
+            <tr *ngFor="let el of temp;index as i">
+
+                <td>{{el |date: 'EE,MMM d'}}</td>
+                <!-- <td><img src="{{weatherIcon}}"></td> -->
+                <td><img src="http://openweathermap.org/img/wn/{{this.dailyIconArray[i]}}.png"
+                        alt="">{{dailyMaxTempArray[i]}}/{{dailyMinTempArray[i]}} 
+                       
+                        <span *ngIf="unit==='metric'">&deg;C;</span>
+                        <span *ngIf="unit==='imperial'">&deg;F</span>
+                    </td>
+                <td><span>{{dailyDescArray[i]}}</span></td>
+                <td><button (click)="togMethod(i)">click me</button></td>
+
+            </tr>
+        </table>
+        <div *ngIf="tog===1 " class="d-flex dateMainClass">
+            <div *ngFor="let i of temp;index as z" class="dateClass">
+                <span (click)="oneDay(z)" [ngStyle]="{ 'font-weight': isSelected==z ? 'bold' : 'normal' }">{{ i
+                    |date:'EE,MMMM d'}} </span>
+                <!-- style="font-weight:bold" -->
+            </div>
+
+        </div>
+        <div *ngIf="tog===1 && thirdVar==0">
+            <!-- *ngFor="let ele of dailyDescArray;index as i"  -->
+            <div> <img src="{{weatherIcon}}">
+
+                <strong> {{dailyDescArray[clickedIndex]}} </strong>
+                <p>The high will be {{dailyMaxTempArray[clickedIndex]}}
+                    <span *ngIf="unit==='metric'">&deg;C</span>
+                    <span *ngIf="unit==='imperial'">&deg;F</span>,
+                    the low will be
+                    {{dailyMinTempArray[clickedIndex]}} 
+                    <span *ngIf="unit==='metric'">&deg;C</span>
+                    <span *ngIf="unit==='imperial'">&deg;F</span>
+
+                </p>
+                <div>
+                    <span *ngIf="weatherAllData.current.rain">{{weatherAllData.current.rain}}%</span>
+
+
+                    <div *ngIf="cityData" class="envirionmentData">
+                        <div>(icon) {{FwindSpeed}}m/s E (icon){{Fpressure}}hPa</div>
+                        <div>humidity: {{ Fhumidity }} uvi: {{Fuv}}</div>
+                        <div>Dew point:{{FdewPoint}}
+                            <span *ngIf="unit==='metric'">&deg;C</span>
+                            <span *ngIf="unit==='imperial'">&deg;F</span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td> <b>Morning </b></td>
+                        <td> <b>Afternoon</b></td>
+                        <td> <b>Evening</b></td>
+                        <td> <b>Night </b></td>
+
+                    </tr>
+                    <tr>
+                        <td><b>Temprature</b></td>
+                        <td>{{morn}}</td>
+                        <td>{{after}}</td>
+                        <td>{{eve}}</td>
+                        <td>{{night}}</td>
+                    </tr>
+                    <tr>
+                        <td> <b>Feels like</b></td>
+                        <td>{{Fmorn}}</td>
+                        <td>{{Fafter}}</td>
+                        <td>{{Feve}}</td>
+                        <td>{{Fnight}}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div style="margin-top: 30px">
+                <span style="margin-right: 30px;"><b> Sunrise: </b>{{sunrise | date: 'hh:mm a '}}</span>
+                <span> <b> Sunset: </b> {{sunset | date: 'hh:mm a '}}</span>
+            </div>
+            <button (click)="togMethod(1)">back</button>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="thirdVar==1">
+            <!-- *ngFor="let ele of dailyDescArray;index as i"  -->
+            <p>helloo</p>
+            <div> <img src="{{weatherIcon}}"> {{temprature}}
+                <span>&#8451;</span>
+                <strong> {{dailyDescArray[clickedIndex]}} </strong>
+                <p>The high will be {{dailyMaxTempArray[clickedIndex]}} °C, the low will be
+                    {{dailyMinTempArray[clickedIndex]}}°C.
+
+                </p>
+                <div>
+                    <span *ngIf="weatherAllData.current.rain else elseBlock">{{weatherAllData.current.rain}}%</span>
+                    <ng-template #elseBlock>0%</ng-template>
+
+                    <div *ngIf="cityData" class="envirionmentData">
+                        <div>(icon) {{windSpeed}}m/s E (icon){{pressure}}hPa</div>
+                        <div>humidity: {{ humidity }} UV: {{uvi}}</div>
+                        <div>Dew point:{{dewPoint}}<span>&#8451;</span>Visibility: {{visibility}}km</div>
+                    </div>
+
+
+                </div>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td> <b>Morning </b></td>
+                        <td> <b>Afternoon</b></td>
+                        <td> <b>Evening</b></td>
+                        <td> <b>Night </b></td>
+
+                    </tr>
+                    <tr>
+                        <td><b>Temprature</b></td>
+                        <td>{{morn}}</td>
+                        <td>{{after}}</td>
+                        <td>{{eve}}</td>
+                        <td>{{night}}</td>
+                    </tr>
+                    <tr>
+                        <td> <b>Feels like</b></td>
+                        <td>{{Fmorn}}</td>
+                        <td>{{Fafter}}</td>
+                        <td>{{Feve}}</td>
+                        <td>{{Fnight}}</td>
+                    </tr>
+                </table>
+
+            </div>
+            <div style="margin-top: 30px">
+                <span style="margin-right: 30px;"><b> Sunrise: </b>{{sunrise | date: 'hh:mm a '}}</span>
+                <span> <b> Sunset: </b> {{sunset | date: 'hh:mm a '}}</span>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>

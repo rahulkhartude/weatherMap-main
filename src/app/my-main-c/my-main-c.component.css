@@ -1,0 +1,81 @@
+/* #ChartArea {
+    position: relative;
+} */
+   
+#ChartArea {
+  border: 2px;
+  border-color: black;
+}
+.AllData
+{
+  display: flex;
+}
+
+#ChartSpace {
+  width: 800px; 
+  overflow-x: auto;
+}
+#ChartSpace::-webkit-scrollbar
+{
+  display: none;
+}
+.envirionmentData{
+  margin-left: 10%;
+}
+.latlon{
+    margin: 5%;
+}
+
+.temp{
+    margin-top: 1%;
+}
+.days{
+ margin-left:5%;
+}
+.up {
+ border: none;
+ background-color: white;
+}
+.container {
+  margin: 0;
+  max-width: 500px;
+  overflow-x: auto;
+}
+.h12{
+
+  margin-left: 100%;
+}
+img{
+  height: 50px;
+}
+table tr td{
+width: 500px;
+}
+
+.dateMainClass
+{
+  width: 700px;
+  overflow-x: scroll;
+}
+.dateMainClass button
+{
+  position: absolute;
+  right: 0px;
+  font-size: 20px;
+  width: 100px;
+}
+.dateClass span
+{
+  cursor: pointer;
+}
+.dateClass
+{
+  font-size: 20px;
+  min-width: max-content;
+  margin-right: 100px;
+}
+/* #one{
+  background-color:wheat ;
+  width: 300px;
+  padding:5px 5px 5px 20px;
+} */
